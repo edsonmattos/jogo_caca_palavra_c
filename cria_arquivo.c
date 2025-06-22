@@ -1,26 +1,27 @@
 #include "cria_arquivo.h"
 
 const char *textos[] = {
-    // Frutas (4-7 caracteres)
-    "abacaxi", "abricot", "acai", "ameixa", "amora", "araca", "banana", "cacau", "caju", "caqui",
-    "caramb", "cereja", "coco", "damasco", "figo", "goiaba", "guava", "jabuti", "jaca", "kiwi",
-    "laranja", "limao", "lichia", "maca", "manga", "melao", "mexer", "morango", "pera", "pessego",
-    "pitanga", "roma", "sapoti", "umbu", "uva", "uvaia", "acerola", "grosel", "marmelo", "tamar",
-
-    // Vegetais (4-7 caracteres)
-    "abobra", "agriao", "alho", "alface", "aspargo", "batata", "brocol", "cebola", "cenoura", "chuchu",
-    "cogume", "couve", "ervilha", "feijao", "inhame", "jilo", "milho", "nabo", "pepino", "quiabo",
-    "rabanet", "rucula", "salsao", "tomate", "beterr", "couvef", "lentilh", "piment", "broto", "mostar",
-
-    // Objetos (4-7 caracteres)
-    "anel", "apito", "aviao", "balao", "balde", "banco", "barco", "bolsa", "botao", "cabo",
-    "caixa", "cama", "caneca", "caneta", "carro", "carta", "cesto", "chave", "colher", "cone",
-    "copo", "dado", "espada", "espelh", "esponja", "faca", "fio", "fita", "fones", "forno",
-    "garfo", "garrafa", "gaveta", "grade", "jarra", "janela", "lampa", "lapis", "lata", "lente",
-    "linha", "livro", "lixeira", "luz", "martel", "mesa", "micro", "moeda", "muro", "navio"
+    "abacaxi","acai","ameixa","amora","araca","banana","cacau","caju","caqui","cereja",
+    "coco","damasco","figo","goiaba","jaca","kiwi","laranja","limao","lichia","umbu",
+    "maca","manga","melao","mamao","morango","pera","pessego","pitanga","roma","sapoti",
+    "abobora","agriao","alho","alface","aipo","aspargo","batata","cebola","cenoura","chuchu",
+    "couve","ervilha","feijao","inhame","jilo","milho","nabo","erva","pepino","quiabo",
+    "maniva","repolho","rucula","salsao","tomate","acelga","broto","pure","grao","vagem","rama","talo","trevo","alga",
+    "anel","apito","aviao","balao","balde","banco","barco","bolsa","botao","cabo",
+    "caixa","cama","caneca","caneta","carro","carta","cesto","chave","colher","cone",
+    "copo","dado","espada","espelho","faca","fios","fita","fones","forno","garfo",
+    "globo","guarda","haste","janela","jarra",
+    "abelha","bode","cabra","cisne","cobra","coelho","coruja","foca","formiga","galinha",
+    "ganso","gato","jabuti","leao","macaco","morcego","ovelha","panda","papagaio","peru",
+    "pomba","pinguim","porco","pulga","rato","texugo","tigre","touro","urso","vaca","zebra","alpaca","burro","camelo",
+    "azul","bege","branco","cobre","dourado","marrom","preto","roxo","verde","amarelo",
+    "cinza","prata","creme","rosa","violeta","indigo","ciano","magenta","carmim","lilas",
+    "bronze","salmao","ocre","palha","rubi","siena","trigo","vinho","azulejo",
+    "andar","beber","cantar","correr","dormir","falar","olhar","pular","comer",
+    "abrir","ajudar","amar","apoiar","banhar","cair","chamar","criar","dancar","ensinar",
+    "entrar","estudar","fazer","fechar","ganhar","gostar","gritar","jogar","limpar","morar"
 };
-const int num_textos = 100; 
-
+const int num_textos = 191; // O número total de palavras finais é 185
 
 char **retorna_lista (int numero_lista_nova){
     if (numero_lista_nova <=0 || numero_lista_nova > num_textos){
@@ -109,7 +110,7 @@ int cria_arquivo(Palavra *lista_palavras, int total_palavras){
         return -1;
     }
     
-    arquivo = fopen("teste.bin","wb"); 
+    arquivo = fopen("palavras.bin","wb"); 
     if (arquivo == NULL){
         printf("erro ao criar aquivo");
         return -1;
@@ -140,7 +141,7 @@ Palavra *retorna_dados_arquivo(int * total_palavras){
         return NULL;
     }
     *total_palavras = 0;
-    arquivo = fopen("teste.bin","rb"); 
+    arquivo = fopen("palavras.bin","rb"); 
     if (arquivo == NULL){
         printf("erro ao abrir para leitura o aquivo");
         return NULL;
@@ -175,7 +176,7 @@ Palavra *retorna_dados_arquivo(int * total_palavras){
 
 int valida_arquivo_criado(){
     FILE *arquivo = NULL;
-    arquivo = fopen("teste.bin","rb");
+    arquivo = fopen("palavras.bin","rb");
     if (arquivo == NULL){
         printf("erro ao abrir para leitura o aquivo");
         return 0;
@@ -186,7 +187,7 @@ int valida_arquivo_criado(){
 
 Palavra *get_palavras(int numero_de_escolhas, int valida_para_recriar) {
     if (numero_de_escolhas <= 0 && numero_de_escolhas > num_textos){
-        printf("");
+        printf("numero fora do range de 0 e %d",num_textos);
         return NULL;
     }
 
