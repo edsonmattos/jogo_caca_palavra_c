@@ -18,7 +18,7 @@ int main() {
     }
 
     // Chama a função principal da sua biblioteca
-    const int NUM_TEXTOS_A_USAR = 3; // Você define o número de escolhas aqui
+    const int NUM_TEXTOS_A_USAR = 20; // Você define o número de escolhas aqui
     Palavra *minhas_palavras = get_palavras(NUM_TEXTOS_A_USAR, valida_para_recriar);
 
     if (minhas_palavras == NULL) {
