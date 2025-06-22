@@ -9,8 +9,8 @@
 
 // --- Constantes e Estruturas ---
 // Declara que estas variáveis globais existem e serão definidas em cria_arquivo.c
-extern const char *textos[];
-extern const int num_textos;
+extern char **textos;
+extern int num_textos;
 
 // Definição da struct Palavra
 typedef struct palavra_s {
@@ -18,7 +18,13 @@ typedef struct palavra_s {
     int inicio[2];
     int fim[2];
 } Palavra;
-
+int palavra_existe(const char *palavra);
+void inserir_palavra (const char *nova_palavra);
+void remover_palavra(const char *palavra_a_remover);
+void libera_array();
+void mostrar_palavras();
+void inicializar_dicionario();
+int main();
 // --- Declarações de Funções ---
 // Funções para sortear e gerenciar listas de palavras em memória
 char **retorna_lista (int numero_lista_nova);

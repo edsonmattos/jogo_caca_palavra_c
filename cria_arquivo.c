@@ -1,27 +1,128 @@
 #include "cria_arquivo.h"
 
-const char *textos[] = {
-    "abacaxi","acai","ameixa","amora","araca","banana","cacau","caju","caqui","cereja",
-    "coco","damasco","figo","goiaba","jaca","kiwi","laranja","limao","lichia","umbu",
-    "maca","manga","melao","mamao","morango","pera","pessego","pitanga","roma","sapoti",
-    "abobora","agriao","alho","alface","aipo","aspargo","batata","cebola","cenoura","chuchu",
-    "couve","ervilha","feijao","inhame","jilo","milho","nabo","erva","pepino","quiabo",
-    "maniva","repolho","rucula","salsao","tomate","acelga","broto","pure","grao","vagem","rama","talo","trevo","alga",
-    "anel","apito","aviao","balao","balde","banco","barco","bolsa","botao","cabo",
-    "caixa","cama","caneca","caneta","carro","carta","cesto","chave","colher","cone",
-    "copo","dado","espada","espelho","faca","fios","fita","fones","forno","garfo",
-    "globo","guarda","haste","janela","jarra",
-    "abelha","bode","cabra","cisne","cobra","coelho","coruja","foca","formiga","galinha",
-    "ganso","gato","jabuti","leao","macaco","morcego","ovelha","panda","papagaio","peru",
-    "pomba","pinguim","porco","pulga","rato","texugo","tigre","touro","urso","vaca","zebra","alpaca","burro","camelo",
-    "azul","bege","branco","cobre","dourado","marrom","preto","roxo","verde","amarelo",
-    "cinza","prata","creme","rosa","violeta","indigo","ciano","magenta","carmim","lilas",
-    "bronze","salmao","ocre","palha","rubi","siena","trigo","vinho","azulejo",
-    "andar","beber","cantar","correr","dormir","falar","olhar","pular","comer",
-    "abrir","ajudar","amar","apoiar","banhar","cair","chamar","criar","dancar","ensinar",
-    "entrar","estudar","fazer","fechar","ganhar","gostar","gritar","jogar","limpar","morar"
-};
-const int num_textos = 191; // O número total de palavras finais é 185
+char **textos = NULL;
+int num_textos= 0;
+
+int palavra_existe(const char *palavra){
+    for (int i = 0; i < num_textos; i++){
+        if(strcmp(textos[i],palavra) ==0){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void inserir_palavra (const char *nova_palavra){
+    if (nova_palavra == NULL){
+        printf("Palavra nao passada na funcao");
+        return;
+    }
+    if (strlen(nova_palavra) <4 &&  strlen(nova_palavra) >4 ){
+        printf("Palavra fora do range de 4 a 20 caracteres");
+        return;
+    }
+    char **temporario = (char**)realloc(textos,(num_textos+1) * sizeof(char*));
+    if(temporario == NULL){
+        printf("erro ao realocar memoria para o array de palavras\n");
+        return;
+    }
+    textos = temporario;
+    textos[num_textos] = (char*) malloc(strlen(nova_palavra)+1);
+    if (textos[num_textos] == NULL){
+        printf("erro ao alocar memoria para a nova palavra\n");
+        return;
+    }
+    strcpy(textos[num_textos],nova_palavra);
+    num_textos++;
+    printf("Palavra '%s' adicionada com sucesso.\n",nova_palavra);
+}
+
+void remover_palavra(const char *palavra_a_remover){
+    int indice_remover = -1;
+    for (int i = 0; i < num_textos; i++){
+        if (strcmp(textos[i],palavra_a_remover) == 0){
+            indice_remover = i;
+            break;
+        }
+    }
+    if (indice_remover == -1){
+        printf("A palavra '%s' nao foi encontrada no array de palavras\n",palavra_a_remover);
+        return;
+    }
+    free(textos[indice_remover]);
+    for (int i = indice_remover; i < num_textos -1; i++){
+        textos[i] = textos[i+1];
+    }
+    num_textos--;
+    if (num_textos<=0){
+        num_textos = 0;
+        free(textos);
+        textos = NULL;
+        printf("Removido a palavra '%s' e o array de palavras esta vazio\n",palavra_a_remover);
+    }else{
+        char **temporario = (char**) realloc(textos, num_textos * sizeof(char*));
+        if (temporario == NULL){
+            printf("erro ao alocar memoria apos a remocao, porem sem aplicar no array original\n");
+            return;
+        }
+        textos = temporario;
+        printf("Removido a palavra '%s' do array de palavras\n",palavra_a_remover);
+    }
+}
+
+void libera_array(){
+    for (int i = 0; i < num_textos; i++){
+        free(textos[i]);
+    }
+    free(textos);
+    textos= NULL;
+    num_textos = 0;
+    printf("Array de palavras liberado na memoria\n");
+}
+
+void mostrar_palavras(){
+    printf("\n--- Palavras Atuais no Array (%d) ---\n", num_textos);
+    if (num_textos == 0) {
+        printf("Array vazio.\n");
+        return;
+    }
+    for (int i = 0; i < num_textos; i++) {
+        printf("%d: %s\n", i + 1, textos[i]);
+    }
+    printf("---------------------------------------\n");
+}
+
+void inicializar_dicionario() {
+    const char *palavras_iniciais[] = {
+        "abacaxi","acai","ameixa","amora","araca","banana","cacau","caju","caqui","cereja",
+        "coco","damasco","figo","goiaba","jaca","kiwi","laranja","limao","lichia","umbu",
+        "maca","manga","melao","mamao","morango","pera","pessego","pitanga","roma","sapoti",
+        "abobora","agriao","alho","alface","aipo","aspargo","batata","cebola","cenoura","chuchu",
+        "couve","ervilha","feijao","inhame","jilo","milho","nabo","erva","pepino","quiabo",
+        "maniva","repolho","rucula","salsao","tomate","acelga","broto","pure","grao","vagem","rama","talo","trevo","alga",
+        "anel","apito","aviao","balao","balde","banco","barco","bolsa","botao","cabo",
+        "caixa","cama","caneca","caneta","carro","carta","cesto","chave","colher","cone",
+        "copo","dado","espada","espelho","faca","fios","fita","fones","forno","garfo",
+        "globo","guarda","haste","janela","jarra",
+        "abelha","bode","cabra","cisne","cobra","coelho","coruja","foca","formiga","galinha",
+        "ganso","gato","jabuti","leao","macaco","morcego","ovelha","panda","papagaio","peru",
+        "pomba","pinguim","porco","pulga","rato","texugo","tigre","touro","urso","vaca","zebra","alpaca","burro","camelo",
+        "azul","bege","branco","cobre","dourado","marrom","preto","roxo","verde","amarelo",
+        "cinza","prata","creme","rosa","violeta","indigo","ciano","magenta","carmim","lilas",
+        "bronze","salmao","ocre","palha","rubi","siena","trigo","vinho","azulejo",
+        "andar","beber","cantar","correr","dormir","falar","olhar","pular","comer",
+        "abrir","ajudar","amar","apoiar","banhar","cair","chamar","criar","dancar","ensinar",
+        "entrar","estudar","fazer","fechar","ganhar","gostar","gritar","jogar","limpar","morar"
+    };
+
+    int total_palavras_iniciais = sizeof(palavras_iniciais) / sizeof(palavras_iniciais[0]);
+    printf("Inicializando array com %d palavras...\n", total_palavras_iniciais);
+
+    for (int i = 0; i < total_palavras_iniciais; i++) {
+        inserir_palavra(palavras_iniciais[i]);
+    }
+    printf("Array inicializado.\n");
+}
 
 char **retorna_lista (int numero_lista_nova){
     if (numero_lista_nova <=0 || numero_lista_nova > num_textos){
@@ -130,8 +231,8 @@ int cria_arquivo(Palavra *lista_palavras, int total_palavras){
     fclose(arquivo);
     printf("Dados criados com sucesso no arquivo.\n");
     return 0;
-    
 }
+
 Palavra *retorna_dados_arquivo(int * total_palavras){
     FILE *arquivo = NULL;
     Palavra *lista_palavras = NULL;
@@ -246,3 +347,35 @@ Palavra *get_palavras(int numero_de_escolhas, int valida_para_recriar) {
 
     return lista_de_palavras_arquivo; // Indica que o programa terminou com sucesso
 }
+
+
+
+// int main() {
+//     inicializar_dicionario();
+
+//     // Testando a função de inserção
+//     inserir_palavra("nova_palavra"); // Deve adicionar
+//     inserir_palavra("abacaxi");    // Já existe
+//     inserir_palavra("teste");      // Deve adicionar
+
+//     // Testando a função de remoção
+//     remover_palavra("abacaxi");      // Deve remover
+//     remover_palavra("nao_existe"); // Não existe
+//     remover_palavra("teste");       // Deve remover
+
+//     // Removendo todas as palavras
+//     remover_palavra("cacau");
+//     remover_palavra("coco");
+//     remover_palavra("goiaba");
+//     remover_palavra("nova_palavra");
+
+//     mostrar_palavras();
+//     Palavra *teste = get_palavras(4,1);
+//     free(teste);
+//     teste= NULL;
+
+//     // Libere a memória quando não precisar mais do dicionário
+//     libera_array();
+
+//     return 0;
+// }
