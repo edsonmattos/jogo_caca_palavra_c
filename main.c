@@ -1,39 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h> // Para srand(time(NULL));
+#include "cria_arquivo.h" // Inclui o header da sua lib 
 
-#include "cria_arquivo.h" // Inclui o header da sua lib dentro da pasta 'data'
 
 int main() {
     // Inicializa o gerador de números aleatórios APENAS UMA VEZ
     srand(time(NULL));
 
-    int valida_para_recriar = 0;
-    printf("Deseja recriar o arquivo? (1 para sim, 0 para nao): ");
-    if (scanf("%d", &valida_para_recriar) != 1) {
-        fprintf(stderr, "Entrada inválida. Usando '0' (não recriar).\n");
-        valida_para_recriar = 0;
-        // Limpa o buffer do stdin caso o usuário digite algo não numérico
-        while (getchar() != '\n');
-    }
+    inicializar_dicionario(1);
 
-    // Chama a função principal da sua biblioteca
-    const int NUM_TEXTOS_A_USAR = 20; // Você define o número de escolhas aqui
-    Palavra *minhas_palavras = get_palavras(NUM_TEXTOS_A_USAR, valida_para_recriar);
+    // Testando a função de inserção
+    inserir_palavra("nova_palavra"); // Deve adicionar
+    inserir_palavra("abacaxi");    // Já existe
+    inserir_palavra("teste");      // Deve adicionar
 
-    if (minhas_palavras == NULL) {
-        fprintf(stderr, "Erro: Nao foi possivel obter a lista de palavras. Encerrando.\n");
-        return 1;
-    }
+    // Testando a função de remoção
+    remover_palavra("abacaxi");      // Deve remover
+    remover_palavra("nao_existe"); // Não existe
+    remover_palavra("teste");       // Deve remover
 
-    // A função 'get_palavras' já imprime as palavras.
-    // Se você precisar fazer algo mais com 'minhas_palavras' aqui, pode fazer.
+    // Removendo todas as palavras
+    remover_palavra("cacau");
+    remover_palavra("coco");
+    remover_palavra("goiaba");
+    remover_palavra("nova_palavra");
 
-    // MUITO IMPORTANTE: Liberar a memória retornada por get_palavras
-    // (A responsabilidade de liberar a lista de Palavras retornada é de quem chamou a função)
-    free(minhas_palavras);
-    minhas_palavras = NULL;
+    mostrar_palavras();
+    Palavra *teste = get_palavras(4,0);
+    free(teste);
+    teste= NULL;
 
-    printf("\nMemória liberada para 'minhas_palavras'. Programa finalizado.\n");
+    // Libere a memória quando não precisar mais do dicionário
+    libera_array();
+
     return 0;
 }
