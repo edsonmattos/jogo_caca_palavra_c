@@ -17,7 +17,7 @@ void inserir_palavra (const char *nova_palavra){
         log_to_file("log_programa.log", LOG_ERROR, "Palavra nao passada na funcao\n");
         return;
     }
-    if (strlen(nova_palavra) <4 ||  strlen(nova_palavra) >20 ){
+    if (strlen(nova_palavra) <5 ||  strlen(nova_palavra) >20 ){
         log_to_file("log_programa.log", LOG_ERROR, "Palavra fora do range de 4 a 20 caracteres\n");
         return;
     }
@@ -96,24 +96,24 @@ void inicializar_dicionario(int valida_para_recriar) {
     if (valida_para_recriar == 1){
         libera_array();
         const char *palavras_iniciais[] = {
-            "abacaxi","acai","ameixa","amora","araca","banana","cacau","caju","caqui","cereja",
-            "coco","damasco","figo","goiaba","jaca","kiwi","laranja","limao","lichia","umbu",
-            "maca","manga","melao","mamao","morango","pera","pessego","pitanga","roma","sapoti",
-            "abobora","agriao","alho","alface","aipo","aspargo","batata","cebola","cenoura","chuchu",
-            "couve","ervilha","feijao","inhame","jilo","milho","nabo","erva","pepino","quiabo",
-            "maniva","repolho","rucula","salsao","tomate","acelga","broto","pure","grao","vagem","rama","talo","trevo","alga",
-            "anel","apito","aviao","balao","balde","banco","barco","bolsa","botao","cabo",
-            "caixa","cama","caneca","caneta","carro","carta","cesto","chave","colher","cone",
-            "copo","dado","espada","espelho","faca","fios","fita","fones","forno","garfo",
+            "abacaxi","ameixa","amora","araca","banana","cacau","caqui","cereja",
+            "damasco","goiaba","laranja","limao","lichia",
+            "manga","melao","mamao","morango","pessego","pitanga","sapoti",
+            "abobora","agriao","alface","aspargo","batata","cebola","cenoura","chuchu",
+            "couve","ervilha","feijao","inhame","milho","pepino","quiabo",
+            "maniva","repolho","rucula","salsao","tomate","acelga","broto","vagem","trevo",
+            "apito","aviao","balao","balde","banco","barco","bolsa","botao",
+            "caixa","caneca","caneta","carro","carta","cesto","chave","colher",
+            "espada","espelho","forno","garfo",
             "globo","guarda","haste","janela","jarra",
-            "abelha","bode","cabra","cisne","cobra","coelho","coruja","foca","formiga","galinha",
-            "ganso","gato","jabuti","leao","macaco","morcego","ovelha","panda","papagaio","peru",
-            "pomba","pinguim","porco","pulga","rato","texugo","tigre","touro","urso","vaca","zebra","alpaca","burro","camelo",
-            "azul","bege","branco","cobre","dourado","marrom","preto","roxo","verde","amarelo",
-            "cinza","prata","creme","rosa","violeta","indigo","ciano","magenta","carmim","lilas",
-            "bronze","salmao","ocre","palha","rubi","siena","trigo","vinho","azulejo",
+            "abelha","cabra","cisne","cobra","coelho","coruja","formiga","galinha",
+            "ganso","jabuti","macaco","morcego","ovelha","panda","papagaio",
+            "pomba","pinguim","porco","pulga","texugo","tigre","touro","zebra","alpaca","burro","camelo",
+            "branco","cobre","dourado","marrom","preto","verde","amarelo",
+            "cinza","prata","creme","violeta","indigo","ciano","magenta","carmim","lilas",
+            "bronze","salmao","palha","siena","trigo","vinho","azulejo",
             "andar","beber","cantar","correr","dormir","falar","olhar","pular","comer",
-            "abrir","ajudar","amar","apoiar","banhar","cair","chamar","criar","dancar","ensinar",
+            "abrir","ajudar","apoiar","banhar","chamar","criar","dancar","ensinar",
             "entrar","estudar","fazer","fechar","ganhar","gostar","gritar","jogar","limpar","morar"
         };
     
@@ -390,6 +390,5 @@ Palavra *get_palavras(int numero_de_escolhas, int valida_para_recriar) {
         log_to_file("log_programa.log",  LOG_INFO,"  Fim:    [%d, %d]\n", lista_de_palavras_struct[i].fim[0], lista_de_palavras_struct[i].fim[1]);
         log_to_file("log_programa.log",  LOG_INFO,"---\n");
     }
-
     return lista_de_palavras_struct; // Indica que o programa terminou com sucesso
 }

@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <time.h> // Para srand(time(NULL));
 #include "cria_arquivo.h" // Inclui o header da sua lib 
+#include "arquive_log.h" // Inclui o header da sua lib 
 
 
 int main() {
     // Inicializa o gerador de números aleatórios APENAS UMA VEZ
+    log_to_file("log_programa.log",  LOG_INFO,"Inicio do log\n");
     srand(time(NULL));
 
     inicializar_dicionario(1);
@@ -25,7 +27,9 @@ int main() {
     remover_palavra("coco");
     remover_palavra("goiaba");
     remover_palavra("nova_palavra");
-
+    
+    cria_arquivo();
+    
     mostrar_palavras();
     Palavra *teste = get_palavras(4,0);
     free(teste);
@@ -33,6 +37,7 @@ int main() {
 
     // Libere a memória quando não precisar mais do dicionário
     libera_array();
+    log_to_file("log_programa.log",  LOG_INFO,"Fim do log\n");
 
     return 0;
 }
